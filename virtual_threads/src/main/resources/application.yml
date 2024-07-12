@@ -1,5 +1,5 @@
 spring:
-  thread-executor: virtual
+  thread-executor: none
   threads:
       virtual:
         enabled: true

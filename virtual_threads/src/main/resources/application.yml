@@ -6,3 +6,6 @@ spring:
   threads:
       virtual:
         enabled: true
+
+test:
+  property: 1

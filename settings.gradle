@@ -1,2 +1,0 @@
-rootProject.name = 'vtVsCoroutines'
-include("virtual_threads")

@@ -1,42 +1,48 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.bundling.BootJar
 
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${project.properties["kotlin_version"]}")
-    }
-}
 plugins {
-    kotlin("jvm") version "1.9.23"
-    kotlin("plugin.spring") version "1.9.23"
+	id("org.springframework.boot") version "3.3.2"
+	id("io.spring.dependency-management") version "1.1.6"
+	kotlin("jvm") version "1.9.24"
+	id("application")
+	kotlin("plugin.spring") version "1.9.24"
 }
 
-group = "vtVsCoroutines"
+group = "com.example"
 version = "0.0.1-SNAPSHOT"
 
-repositories {
-    mavenCentral()
-    maven { url = uri("https://repo.spring.io/milestone") }
-    maven { url = uri("https://repo.spring.io/snapshot") }
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
 }
-extra["springCloudVersion"] = "2023.0.0"
+
+repositories {
+	mavenCentral()
+}
 
 dependencies {
-    compileOnly("org.projectlombok:lombok:1.18.34")
-    implementation("org.springframework.boot:spring-boot-starter-parent:${project.properties["springBootVersion"]}")
-    implementation ("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${project.properties["kotlin_version"]}")
+	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs += "-Xjsr305=strict"
-        jvmTarget = "${project.properties["javaVersion"]}"
-    }
-}
-
 
 kotlin {
-    jvmToolchain("${project.properties["javaVersion"]}".toInt())
+	compilerOptions {
+		freeCompilerArgs.addAll("-Xjsr305=strict")
+	}
+}
+
+tasks.withType<Test> {
+	useJUnitPlatform()
+}
+tasks.withType<BootJar>{
+	enabled=false
+}
+
+tasks.withType<Jar>{
+	enabled=true
 }

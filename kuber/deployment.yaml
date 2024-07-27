@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: virtual-app
+  namespace: demo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: virtual-app
+  template:
+    metadata:
+      labels:
+        app: virtual-app
+    spec:
+      containers:
+        - name: virtual-app
+          image: romaroman91/virtual
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: config-volume
+              mountPath: /config
+      volumes:
+        - name: config-volume
+          configMap:
+            name: virtual-conf

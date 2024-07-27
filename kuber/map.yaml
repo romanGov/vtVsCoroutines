@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: virtual-conf
+  namespace: demo
+data:
+  application.yaml: |
+    server:
+      tomcat:
+        threads.max: 200
+    spring:
+      application:
+        name: virtual-backend
+      thread-executor: virtual
+      threads:
+        virtual:
+          enabled: true
+    
+    test:
+      property: 2

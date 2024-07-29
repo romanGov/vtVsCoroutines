@@ -6,6 +6,7 @@ plugins {
 	kotlin("jvm") version "1.9.24"
 	id("application")
 	kotlin("plugin.spring") version "1.9.24"
+	id("org.flywaydb.flyway") version "10.16.0"
 }
 
 group = "com.example"
@@ -20,11 +21,24 @@ java {
 repositories {
 	mavenCentral()
 }
+buildscript {
+	repositories {
+		maven {
+			url = uri("https://plugins.gradle.org/m2/")
+		}
+	}
+	dependencies {
+		classpath("org.flywaydb:flyway-database-postgresql:10.4.1")
+	}
+}
 
 dependencies {
+	implementation("org.flywaydb:flyway-database-postgresql:10.4.1")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	runtimeOnly("org.postgresql:postgresql")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.3.2")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
@@ -45,4 +59,11 @@ tasks.withType<BootJar>{
 
 tasks.withType<Jar>{
 	enabled=true
+}
+flyway {
+	url = "jdbc:postgresql://localhost:7432/demo"
+	user = "myuser"
+	password = "secret"
+	schemas= arrayOf("demo")
+	locations = arrayOf("classpath:db")
 }

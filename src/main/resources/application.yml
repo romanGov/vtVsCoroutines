@@ -2,12 +2,24 @@ server:
   tomcat:
     threads.max: 200
 spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:7432/demo?currentSchema=demo
+    username: myuser
+    password: secret
+    hikari:
+      schema: demo
   application:
     name: virtual-backend
   thread-executor: virtual
   threads:
       virtual:
         enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+  flyway:
+    locations: db
 
 test:
   property: 1

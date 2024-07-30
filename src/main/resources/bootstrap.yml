@@ -13,13 +13,10 @@ spring:
     name: virtual-backend
   thread-executor: virtual
   threads:
-      virtual:
-        enabled: true
+    virtual:
+      enabled: true
   jpa:
     hibernate:
       ddl-auto: update
   flyway:
     locations: db
-
-test:
-  property: 1

@@ -18,17 +18,34 @@ java {
 	}
 }
 
+val springBootAdminVersion="3.2.3"
+val springCloudVersion="2023.0.1"
+
 repositories {
 	mavenCentral()
+	maven{
+		url=uri("https://repo.spring.io/milestone")
+	}
 }
 buildscript {
 	repositories {
 		maven {
 			url = uri("https://plugins.gradle.org/m2/")
 		}
+		maven{
+			url=uri("https://repo.spring.io/milestone")
+		}
 	}
+
 	dependencies {
 		classpath("org.flywaydb:flyway-database-postgresql:10.4.1")
+	}
+}
+
+dependencyManagement {
+	imports {
+		mavenBom("de.codecentric:spring-boot-admin-dependencies:${springBootAdminVersion}")
+		mavenBom ("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
 	}
 }
 
@@ -37,6 +54,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	implementation ("org.springframework.cloud:spring-cloud-starter-config")
+	implementation("org.springframework.cloud:spring-cloud-starter-bootstrap")
 	runtimeOnly("org.postgresql:postgresql")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.3.2")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")

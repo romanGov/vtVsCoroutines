@@ -17,4 +17,4 @@ data:
           enabled: true
     
     test:
-      property: 2
+      property: 90

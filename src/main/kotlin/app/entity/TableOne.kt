@@ -10,4 +10,7 @@ class TableOne(
     var id:UUID?=null,
     var description: String?=null,
     var title: String?=null,
+    var col2: String?=null,
+    var col3: String?=null,
+    var col4: String?=null,
 )
